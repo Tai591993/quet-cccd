@@ -5,25 +5,10 @@
   <title>Quét CCCD và Gửi Google Form</title>
   <script src="https://unpkg.com/html5-qrcode"></script>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 30px;
-    }
-    input {
-      display: block;
-      margin: 10px 0;
-      padding: 8px;
-      width: 100%;
-      max-width: 400px;
-    }
-    button {
-      padding: 10px 20px;
-      font-size: 16px;
-    }
-    #reader {
-      margin-top: 20px;
-      width: 300px;
-    }
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    input { display: block; margin: 10px 0; padding: 8px; width: 100%; max-width: 400px; }
+    button { padding: 10px 20px; font-size: 16px; }
+    #reader { margin-top: 20px; width: 300px; }
   </style>
 </head>
 <body>
@@ -55,11 +40,8 @@
 
     const html5QrCode = new Html5Qrcode("reader");
     html5QrCode.start(
-      { facingMode: "environment" }, // dùng camera sau
-      {
-        fps: 10,
-        qrbox: 250
-      },
+      { facingMode: "environment" },
+      { fps: 10, qrbox: 250 },
       onScanSuccess
     ).catch(err => {
       console.error("Lỗi khi bật camera:", err);
