@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <title>Quét CCCD và Gửi Google Form</title>
+  <script src="https://unpkg.com/html5-qrcode"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 30px;
+    }
+    input {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      max-width: 400px;
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+    }
+    #reader {
+      margin-top: 20px;
+      width: 300px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Quét mã QR CCCD</h2>
+  <div id="reader"></div>
+
+  <form id="cccdForm" action="https://docs.google.com/forms/d/e/1FAIpQLSd9tsUSSvi9A9Nbn-69aPEBCEKECSrboj8OC1_jAG6ULQkd5Q/formResponse" method="POST" target="hidden_iframe">
+    <input type="text" name="entry.1217187172" id="hoTen" placeholder="Họ và tên" required />
+    <input type="text" name="entry.47384351" id="ngaySinh" placeholder="Ngày sinh" required />
+    <input type="text" name="entry.1458207203" id="noiThuongTru" placeholder="Nơi thường trú" required />
+    <input type="text" name="entry.1018203989" id="soCCCD" placeholder="Số CCCD" required />
+    <button type="submit">Gửi vào Google Form</button>
+  </form>
+
+  <iframe name="hidden_iframe" style="display:none;"></iframe>
+
+  <script>
+    function onScanSuccess(decodedText, decodedResult) {
+      const parts = decodedText.split('|');
+      if (parts.length >= 4) {
+        document.getElementById('hoTen').value = parts[0].trim();
+        document.getElementById('ngaySinh').value = parts[1].trim();
+        document.getElementById('noiThuongTru').value = parts[2].trim();
+        document.getElementById('soCCCD').value = parts[3].trim();
+      } else {
+        alert("Mã QR không hợp lệ hoặc thiếu dữ liệu.");
+      }
+    }
+
+    const html5QrCode = new Html5Qrcode("reader");
+    html5QrCode.start(
+      { facingMode: "environment" }, // dùng camera sau
+      {
+        fps: 10,
+        qrbox: 250
+      },
+      onScanSuccess
+    ).catch(err => {
+      console.error("Lỗi khi bật camera:", err);
+    });
+  </script>
+</body>
+</html>
